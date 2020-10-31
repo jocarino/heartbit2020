@@ -8,10 +8,15 @@
     "dev": "nodemon index"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "7.2.0",
+    "nodemon": "^2.0.6",
     "parcel-bundler": "^1.12.4"
   },
   "keywords": []

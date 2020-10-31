@@ -12,6 +12,7 @@ const patients = require('./Patients');
 
 const app = express();
 
+
 /* // Get request
 app.get('/', (reqeust, response) => {
     response.sendFile(path.join(__dirname,'public','index.html'));
@@ -37,8 +38,8 @@ app.get('/', (request, response) => response.render('index', {
 
 
 // Members API Routes
-/* app.use('/api/patients', require('./routes/api/patients'));
+app.use('/api/patients', require('./routes/api/patients'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server port ${PORT}`)); */
+app.listen(PORT, () => console.log(`Server port ${PORT}`));

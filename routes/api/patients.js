@@ -4,17 +4,55 @@ const router = express.Router();
 const patients = require('../../Patients');
 const uuid = require('uuid');
 
+// include MongoDB
+const { MongoClient } = require('mongodb');
+/**
+ * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+ * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+ */
+const uri = "mongodb+srv://user:heartbits2020@heartbit2020-patients.f2wof.mongodb.net/patients?retryWrites=true&w=majority";
+
+// MongoDB instance client
+const client = new MongoClient(uri);
+
+/* // DB connection
+await client.connect(); */
+
+async function findPatientById(client, patientId) {
+    try {
+        // Connect to the MongoDB cluster
+        await client.connect();
+        console.log("requesting...");
+        result = await client.db("patients").collection("heartbits2020")
+            .findOne({ _id: patientId });
+        console.log("resulted");
+
+        if (result) {
+            response.json(result);
+        } else {
+            response.status(400).json({ msg: `No patient with id of ${patientId}` });
+        }
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+
 // Get all patients
 router.get('/', (request, response) => response.json(patients));
 
 // Get single patient
 router.get('/:id', (request, response) => {
-    const found = patients.some(patient => patient.id === parseInt(request.params.id))
-    if (found) {
-        response.json(patients.filter(patient => patient.id === parseInt(request.params.id)));
-    } else {
-        response.status(400).json({ msg: `No patient with id of ${request.params.id}` });
-    }
+    console.log("get");
+    findPatientById(client, request.params.id);
+
+    /*     const found = patients.some(patient => patient.id === parseInt(request.params.id))
+        if (found) {
+            response.json(patients.filter(patient => patient.id === parseInt(request.params.id)));
+        } else {
+            response.status(400).json({ msg: `No patient with id of ${request.params.id}` });
+        } */
 });
 
 // Create patient

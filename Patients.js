@@ -1,4 +1,4 @@
-const members = [
+const patients = [
     {
         id: 1,
         name: 'John Doe',
