@@ -6,15 +6,7 @@ const patients = require('../../Patients');
 
 // include MongoDB
 const { MongoClient } = require('mongodb');
-/**
- * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
- * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
- */
-const uri = "mongodb+srv://user:heartbits2020@heartbit2020-patients.f2wof.mongodb.net/patients?retryWrites=true&w=majority";
 
-// MongoDB instance client
-const client = new MongoClient(uri);
-var ObjectId = require('mongodb').ObjectID;
 
 /* // DB connection
 await client.connect(); */
@@ -25,31 +17,41 @@ await client.connect(); */
 router.get('/', (request, response) => response.json(patients));
 
 // Get single patient
-router.get('/:id', setTimeout((request, response) => {
+router.get('/:id', (request, response) => {
     console.log("get");
     // let result = {};
-    try {
-        async function findPatientById(client, patientId) {
-            try {
-                // Connect to the MongoDB cluster
-                await client.connect();
-                patientObject = await client.db("patients").collection("heartbits2020")
-                    .findOne({ _id: ObjectId(patientId) });
+    /**
+     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+     */
+    const uri = "mongodb+srv://user:heartbits2020@heartbit2020-patients.f2wof.mongodb.net/patients?retryWrites=true&w=majority";
 
-                response.json(patientObject);
-            } catch (e) {
-                response.status(400).json({ msg: `Error ${e}` });
-            } finally {
-                await client.close();
-                console.log("closed");
-            }
+    // MongoDB instance client
+    const client = new MongoClient(uri);
+    var ObjectId = require('mongodb').ObjectID;
 
+    async function findPatientById(client, patientId) {
+        try {
+            // Connect to the MongoDB cluster
+            await client.connect();
+            patientObject = await client.db("patients").collection("heartbits2020")
+                .findOne({ _id: ObjectId(patientId) });
+            console.log(patientObject);
+            response.json(patientObject);
+        } catch (e) {
+            response.status(500).json({ msg: `Error ${e}` });
+        } finally {
+            await client.close();
+            console.log("closed");
         }
+    }
+    try {
         findPatientById(client, request.params.id);
     } catch {
-        response.status(400).json({ msg: `No patient with id of ${patientId}` });
+        response.status(400).json({ msg: `No patient with id of ${request.params.id}` });
     }
-}), 3000);
+
+});
 
 // Create patient
 router.post('/', (request, response) => {
