@@ -1,5 +1,5 @@
 <h1 class="text-center mb-3">{{title}}</h1>
-<form id="getPatitentForm" action="/api/patients" method="GET" class="mb-4">
+<form id="getPatitentForm" action="/patients" method="GET" class="mb-4">
     <div class="form-goup">
         <label for="name">Patient id</label>
         <input type="text" name="Patient id" id="inputPatientId" class="form-control">
@@ -25,7 +25,7 @@
         event.preventDefault()
         console.log("test");
         console.log(inputPatientId.value);
-        getPatientForm.action = `/api/patients/${inputPatientId.value}`;
+        getPatientForm.action = `/patients/${inputPatientId.value}`;
         getPatientForm.submit();
     });
 

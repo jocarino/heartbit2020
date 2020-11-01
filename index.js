@@ -14,6 +14,9 @@ const app = express();
 
 require('dotenv').config()
 
+// include MongoDB
+const { MongoClient } = require('mongodb');
+
 /* // Get request
 app.get('/', (reqeust, response) => {
     response.sendFile(path.join(__dirname,'public','index.html'));
@@ -36,6 +39,50 @@ app.get('/', (request, response) => response.render('index', {
 
 }));
 
+// Profile page Route
+app.get('/patients/:id', (request, response) => {
+    /**
+     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+     */
+    const uri = "mongodb+srv://user:heartbits2020@heartbit2020-patients.f2wof.mongodb.net/patients?retryWrites=true&w=majority";
+
+    // MongoDB instance client
+    const client = new MongoClient(uri);
+    var ObjectId = require('mongodb').ObjectID;
+
+    async function findPatientById(client, patientId) {
+        try {
+            // Connect to the MongoDB cluster
+            await client.connect();
+            patientObject = await client.db("patients").collection("heartbits2020")
+                .findOne({ _id: ObjectId(patientId) });
+            console.log(patientObject);
+            response.render('profile', {
+                name: patientObject.name,
+                blood_type: patientObject.blood_type,
+                alergies: (patientObject.alergies).split(', '),
+                image: patientObject.image,
+                medinfo: patientObject.medinfo
+            })
+        } catch (e) {
+            response.status(500).json({ msg: `Error ${e}` });
+        } finally {
+            await client.close();
+            console.log("closed");
+        }
+    }
+    try {
+        findPatientById(client, request.params.id);
+    } catch {
+        response.status(400).json({ msg: `No patient with id of ${request.params.id}` });
+    }
+
+    /* response.render('profile', {
+        name: patientObject.name,
+
+    }) */
+});
 
 
 // Members API Routes
