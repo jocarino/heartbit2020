@@ -20,8 +20,17 @@
                 {{#each alergies}}
                 <span class="label label-info">{{this}}</span>
                 {{/each}}
+                <span><strong>Medication: </strong></span>
+                {{#each medication}}
+                <span class="label label-warning">{{this}}</span>
+                {{/each}}
+                <span><strong>Chronic diseases: </strong></span>
+                {{#each chrondesies}}
+                <span class="label label-success">{{this}}</span>
+                {{/each}}
             </center>
-            <em>{{medinfo}}</em>
+            <span><strong>Emergency contact: </strong></span>
+            <em>{{emercontact}}</em>
         </center>
     </div>
     {{!-- <!-- Modal -->
