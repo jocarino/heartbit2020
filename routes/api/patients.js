@@ -29,42 +29,26 @@ router.get('/:id', (request, response) => {
     console.log("get");
     // let result = {};
     try {
-        async function findPatientById(client, patientName) {
+        async function findPatientById(client, patientId) {
             try {
                 // Connect to the MongoDB cluster
                 await client.connect();
-                console.log("requesting...");
                 patientObject = await client.db("patients").collection("heartbits2020")
-                    .findOne({ name: patientName });
-
-                // console.log(patientObject)
-                /*result = {
-                "Name": patientObject.name,
-                "Blood Type": patientObject.blood_type,
-                "Alergies": patientObject.alergies
-            } */
+                    .findOne({ _id: ObjectId(patientId) });
 
                 response.json(patientObject);
             } catch (e) {
-                console.error(e);
+                response.status(400).json({ msg: `Error ${e}` });
             } finally {
                 await client.close();
+                console.log("closed");
             }
 
         }
         findPatientById(client, request.params.id);
-        // console.log(result);
-        // response.json(result);
     } catch {
         response.status(400).json({ msg: `No patient with id of ${patientId}` });
     }
-
-    /*     const found = patients.some(patient => patient.id === parseInt(request.params.id))
-        if (found) {
-            response.json(patients.filter(patient => patient.id === parseInt(request.params.id)));
-        } else {
-            response.status(400).json({ msg: `No patient with id of ${request.params.id}` });
-        } */
 });
 
 // Create patient
