@@ -14,30 +14,12 @@ const uri = "mongodb+srv://user:heartbits2020@heartbit2020-patients.f2wof.mongod
 
 // MongoDB instance client
 const client = new MongoClient(uri);
+var ObjectId = require('mongodb').ObjectID;
 
 /* // DB connection
 await client.connect(); */
 
-async function findPatientById(client, patientId) {
-    try {
-        // Connect to the MongoDB cluster
-        await client.connect();
-        console.log("requesting...");
-        result = await client.db("patients").collection("heartbits2020")
-            .findOne({ _id: patientId });
-        console.log("resulted");
 
-        if (result) {
-            response.json(result);
-        } else {
-            response.status(400).json({ msg: `No patient with id of ${patientId}` });
-        }
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
-}
 
 // Get all patients
 router.get('/', (request, response) => response.json(patients));
@@ -45,7 +27,37 @@ router.get('/', (request, response) => response.json(patients));
 // Get single patient
 router.get('/:id', (request, response) => {
     console.log("get");
-    findPatientById(client, request.params.id);
+    // let result = {};
+    try {
+        async function findPatientById(client, patientName) {
+            try {
+                // Connect to the MongoDB cluster
+                await client.connect();
+                console.log("requesting...");
+                patientObject = await client.db("patients").collection("heartbits2020")
+                    .findOne({ name: patientName });
+
+                // console.log(patientObject)
+                /*result = {
+                "Name": patientObject.name,
+                "Blood Type": patientObject.blood_type,
+                "Alergies": patientObject.alergies
+            } */
+
+                response.json(patientObject);
+            } catch (e) {
+                console.error(e);
+            } finally {
+                await client.close();
+            }
+
+        }
+        findPatientById(client, request.params.id);
+        // console.log(result);
+        // response.json(result);
+    } catch {
+        response.status(400).json({ msg: `No patient with id of ${patientId}` });
+    }
 
     /*     const found = patients.some(patient => patient.id === parseInt(request.params.id))
         if (found) {
