@@ -1,32 +1,38 @@
-<h1 class="text-center mb-3">{{title}}</h1>
-<form id="getPatitentForm" action="/patients" method="GET" class="mb-4">
-    <div class="form-goup">
-        <label for="name">Patient id</label>
-        <input type="text" name="Patient id" id="inputPatientId" class="form-control">
+<div class="container">
+    <h1 class="text-center mb-3">{{title}}</h1>
+    <div class="span3 well">
+        <center>
+            <form id="getPatitentForm" action="/patients" method="GET" class="mb-4">
+                <div class="form-goup">
+                    <label for="name">Patient id</label>
+                    <input type="text" name="Patient id" id="inputPatientId" class="form-control">
+                </div>
+                <input type="submit" name="Look for patient" id="submitForm" class="btn btn-primary btn-block">
+
+            </form>
+
+            <ul class="list-group">
+                {{#each patients}}
+                <li class="list-group-item">{{this.name}}: {{this.email}}</li>
+                {{/each}}
+            </ul>
+
+            {{!-- <a href="/api/patients" class="btn btn-light mt-4">Visit API</a>
+ --}}
+            <script>
+                const getPatientForm = document.getElementById("getPatitentForm");
+                const inputPatientId = document.getElementById("inputPatientId");
+                const submitForm = document.getElementById("submitForm");
+
+                submitForm.addEventListener("click", function (event) {
+                    event.preventDefault()
+                    console.log("test");
+                    console.log(inputPatientId.value);
+                    getPatientForm.action = `/patients/${inputPatientId.value}`;
+                    getPatientForm.submit();
+                });
+
+            </script>
+        </center>
     </div>
-    <input type="submit" name="Look for patient" id="submitForm" class="btn btn-primary btn-block">
-
-</form>
-
-<ul class="list-group">
-    {{#each patients}}
-    <li class="list-group-item">{{this.name}}: {{this.email}}</li>
-    {{/each}}
-</ul>
-
-<a href="/api/patients" class="btn btn-light mt-4">Visit API</a>
-
-<script>
-    const getPatientForm = document.getElementById("getPatitentForm");
-    const inputPatientId = document.getElementById("inputPatientId");
-    const submitForm = document.getElementById("submitForm");
-
-    submitForm.addEventListener("click", function (event) {
-        event.preventDefault()
-        console.log("test");
-        console.log(inputPatientId.value);
-        getPatientForm.action = `/patients/${inputPatientId.value}`;
-        getPatientForm.submit();
-    });
-
-</script>
+</div>
