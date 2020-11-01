@@ -52,6 +52,7 @@ app.get('/patients/:id', (request, response) => {
     var ObjectId = require('mongodb').ObjectID;
 
     async function findPatientById(client, patientId) {
+        if (patientId == 1) { patientId = '5f9def0ef0ccee22c46f253d' }
         try {
             // Connect to the MongoDB cluster
             await client.connect();
