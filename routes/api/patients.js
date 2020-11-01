@@ -2,7 +2,7 @@ const { request } = require('express');
 const express = require('express');
 const router = express.Router();
 const patients = require('../../Patients');
-const uuid = require('uuid');
+// const uuid = require('uuid');
 
 // include MongoDB
 const { MongoClient } = require('mongodb');
