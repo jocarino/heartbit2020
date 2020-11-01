@@ -12,6 +12,7 @@ const patients = require('./Patients');
 
 const app = express();
 
+require('dotenv').config()
 
 /* // Get request
 app.get('/', (reqeust, response) => {
@@ -40,6 +41,6 @@ app.get('/', (request, response) => response.render('index', {
 // Members API Routes
 app.use('/api/patients', require('./routes/api/patients'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Server port ${PORT}`));
