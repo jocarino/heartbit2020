@@ -25,7 +25,7 @@ await client.connect(); */
 router.get('/', (request, response) => response.json(patients));
 
 // Get single patient
-router.get('/:id', (request, response) => {
+router.get('/:id', setTimeout((request, response) => {
     console.log("get");
     // let result = {};
     try {
@@ -49,7 +49,7 @@ router.get('/:id', (request, response) => {
     } catch {
         response.status(400).json({ msg: `No patient with id of ${patientId}` });
     }
-});
+}), 3000);
 
 // Create patient
 router.post('/', (request, response) => {
