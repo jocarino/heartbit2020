@@ -65,7 +65,10 @@ app.get('/patients/:id', (request, response) => {
                 image: patientObject.image,
                 medication: (patientObject.medication).split(', '),
                 chrondesies: (patientObject.chrondesies).split(', '),
-                emercontact: patientObject.emercontact
+                emercontact: patientObject.emercontact,
+                medexams: (patientObject.medexams).split(', '),
+                medreports: (patientObject.medreports).split(', '),
+                pattreat: (patientObject.pattreat).split(', ')
             })
         } catch (e) {
             response.status(500).json({ msg: `Error ${e}` });

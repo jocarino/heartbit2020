@@ -28,10 +28,35 @@
                 {{#each chrondesies}}
                 <span class="label label-success">{{this}}</span>
                 {{/each}}
+                <p></p>
+                <div id="nonUrgentInfo" class="hidden">
+                    <p><strong>Medical exmas: </strong></p>
+                    {{#each medexams}}
+                    <p class="">{{this}}</p>
+                    {{/each}}
+                    <p><strong>Medical reports: </strong></p>
+                    {{#each medreports}}
+                    <p class="">{{this}}</p>
+                    {{/each}}
+                    <p><strong>Pathologies and treatments: </strong></p>
+                    {{#each pattreat}}
+                    <p class="">{{this}}</p>
+                    {{/each}}
+                </div>
             </center>
             <span><strong>Emergency contact: </strong></span>
             <em>{{emercontact}}</em>
+
         </center>
+        <p></p>
+        <p></p>
+        <div class="row">
+            <div class="span4"></div>
+            <div class="span4"><button class="btn btn-primary center-block" id="nonUrgentInfoBtn">See non urgent
+                    information</button></div>
+            <div class="span4"></div>
+        </div>
+
     </div>
     {{!-- <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -70,3 +95,11 @@
         </div>
     </div> --}}
 </div>
+<script>
+    const nonUrgentInfo = document.getElementById("nonUrgentInfo");
+    const nonUrgentInfoBtn = document.getElementById("nonUrgentInfoBtn");
+    nonUrgentInfoBtn.addEventListener("click", function (event) {
+        nonUrgentInfo.className = "center-block";
+    })
+
+</script>
